@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: destination
+spec:
+  podSelector:
+    matchLabels:
+      run: nginx
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              project: origin
+          podSelector:
+            matchLabels:
+              can: si
+      ports:
+        - protocol: TCP
+          port: 80
